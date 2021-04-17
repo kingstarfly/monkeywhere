@@ -14,6 +14,9 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../lib/auth";
+import { postSighting } from "../utils/fetcher";
+import { useMutation, useQueryClient } from "react-query";
 
 const ReportModal = ({
   isOpen,
@@ -28,24 +31,37 @@ const ReportModal = ({
     reset,
     formState: { errors },
   } = useForm();
+  const auth = useAuth();
+
+  // Access the client
+  const queryClient = useQueryClient();
+  // Mutations
+  const sightingsMutation = useMutation(postSighting, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("sightings");
+    },
+  });
 
   const saveMonkeyData = ({ reportNumMonkeys, reportDescription }) => {
     // Todo: Submit details and save to database
+    const timestamp = new Date().toISOString();
+    const position = [newLocation.lat, newLocation.lng];
 
-    setCurrentMonkeyData((prevState) => {
-      // console.log(prevState);
-      // console.log(newLocation);
-      return [
-        ...prevState,
-        {
-          id: (prevState.length + 1).toString(),
-          numMonkeys: parseInt(reportNumMonkeys),
-          timestamp: new Date().toISOString(),
-          description: reportDescription,
-          position: newLocation,
-        },
-      ];
+    const sightingData = {
+      user_id: auth.user.uid,
+      numMonkeys: reportNumMonkeys,
+      description: reportDescription,
+      position: position,
+      timestamp: timestamp,
+    };
+
+    // Client-side update with react query
+    sightingsMutation.mutate({
+      id: new Date().toISOString(), // just to make it unique
+      ...sightingData,
     });
+
     reset();
     onClose();
   };

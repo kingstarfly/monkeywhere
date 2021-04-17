@@ -3,7 +3,6 @@ import { useAuth } from "../lib/auth";
 
 export default function Login() {
   const auth = useAuth();
-  console.log(auth);
   return (
     <div className={styles.container}>
       {auth?.user?.email}

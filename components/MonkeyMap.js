@@ -1,5 +1,5 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Box } from "@chakra-ui/layout";
+import { Box, Text } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import {
   MapContainer,
@@ -12,6 +12,8 @@ import "leaflet/dist/leaflet.css";
 
 import MonkeyMarker from "./MonkeyMarker";
 import ReportModal from "./ReportModal";
+import { useQuery } from "react-query";
+import { getSightings } from "../utils/fetcher";
 
 const LocationMarker = ({ setNewLocation, onOpen }) => {
   const [position, setPosition] = useState(null);
@@ -38,15 +40,19 @@ const LocationMarker = ({ setNewLocation, onOpen }) => {
   );
 };
 
-const MonkeyMap = ({ monkeyData }) => {
-  const [currentMonkeyData, setCurrentMonkeyData] = useState(monkeyData);
+const MonkeyMap = () => {
   const [newLocation, setNewLocation] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddMonkey = (position) => {
-    console.log("Longpressed on map at position: " + position);
-    onOpen();
-  };
+  // Queries
+  const { isLoading, isError, data: monkeyData, error } = useQuery(
+    "sightings",
+    getSightings
+  );
+
+  if (isLoading) {
+    return <Text>Loading Map...</Text>;
+  }
 
   return (
     <Box
@@ -63,15 +69,14 @@ const MonkeyMap = ({ monkeyData }) => {
       />
       {/* TODO get user location and place a marker there */}
       <LocationMarker onOpen={onOpen} setNewLocation={setNewLocation} />
-      {currentMonkeyData &&
-        currentMonkeyData.map((info) => {
+      {monkeyData &&
+        monkeyData.map((info) => {
           return <MonkeyMarker key={info.id} info={info} />;
         })}
 
       <ReportModal
         isOpen={isOpen}
         onClose={onClose}
-        setCurrentMonkeyData={setCurrentMonkeyData}
         newLocation={newLocation}
       />
     </Box>
