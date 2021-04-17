@@ -1,23 +1,30 @@
-import { Button } from "@chakra-ui/button";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useAuth } from "../lib/auth";
 
-export default function Login() {
+function Login() {
   const auth = useAuth();
   return (
-    <div className={styles.container}>
-      {auth?.user?.email}
-
-      {auth.user ? (
-        <>
-          <Button mt={4} size="sm" onClick={(e) => auth.signout()}>
-            Sign Out
-          </Button>
-        </>
-      ) : (
-        <Button mt={4} size="sm" onClick={(e) => auth.signinWithGoogle()}>
-          Sign in
-        </Button>
-      )}
-    </div>
+    <Flex
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      h="100vh"
+      p={8}
+    >
+      <Heading size="2xl">monkeywhere</Heading>
+      <Text textAlign="center" fontSize="lg">
+        Help us find out where they are!
+      </Text>
+      <Button
+        colorScheme="teal"
+        mt={4}
+        size="lg"
+        onClick={(e) => auth.signinWithGoogle()}
+      >
+        Sign in
+      </Button>
+    </Flex>
   );
 }
+
+export default Login;

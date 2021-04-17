@@ -14,14 +14,11 @@ import MonkeyMarker from "./MonkeyMarker";
 import ReportModal from "./ReportModal";
 import { useQuery } from "react-query";
 import { getSightings } from "../utils/fetcher";
+import { Skeleton } from "@chakra-ui/skeleton";
 
 const LocationMarker = ({ setNewLocation, onOpen }) => {
   const [position, setPosition] = useState(null);
   const map = useMapEvents({
-    locationfound(e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
     contextmenu(e) {
       map.flyTo(e.latlng, map.getZoom());
 
@@ -33,11 +30,7 @@ const LocationMarker = ({ setNewLocation, onOpen }) => {
     },
   });
 
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
-  );
+  return null;
 };
 
 const MonkeyMap = () => {
@@ -50,36 +43,42 @@ const MonkeyMap = () => {
     getSightings
   );
 
-  if (isLoading) {
-    return <Text>Loading Map...</Text>;
-  }
+  // if (isLoading) {
+  //   return <Text>Loading Map...</Text>;
+  // }
 
   return (
-    <Box
-      w="100%"
+    <Skeleton
+      isLoaded={!isLoading}
       h="100%"
-      as={MapContainer}
-      center={[1.348147, 103.684699]}
-      zoom={16}
-      scrollWheelZoom={true}
+      startColor="brown.100"
+      endColor="brown.500"
     >
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {/* TODO get user location and place a marker there */}
-      <LocationMarker onOpen={onOpen} setNewLocation={setNewLocation} />
-      {monkeyData &&
-        monkeyData.map((info) => {
-          return <MonkeyMarker key={info.id} info={info} />;
-        })}
+      <Box
+        w="100%"
+        h="100%"
+        as={MapContainer}
+        center={[1.348147, 103.684699]}
+        zoom={16}
+        scrollWheelZoom={true}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <LocationMarker onOpen={onOpen} setNewLocation={setNewLocation} />
+        {monkeyData &&
+          monkeyData.map((info) => {
+            return <MonkeyMarker key={info.id} info={info} />;
+          })}
 
-      <ReportModal
-        isOpen={isOpen}
-        onClose={onClose}
-        newLocation={newLocation}
-      />
-    </Box>
+        <ReportModal
+          isOpen={isOpen}
+          onClose={onClose}
+          newLocation={newLocation}
+        />
+      </Box>
+    </Skeleton>
   );
 };
 
