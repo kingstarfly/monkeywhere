@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import ReportModal from "../components/ReportModal";
 import { useRequireAuth } from "../lib/auth";
 import { SignOutIcon } from "../styles/theme";
+import useWindowSize from "../lib/window";
 
 const MonkeyMap = dynamic(() => import("../components/MonkeyMap"), {
   ssr: false,
@@ -23,6 +24,7 @@ const map = () => {
 
   const auth = useRequireAuth();
   const toast = useToast();
+  const { height } = useWindowSize();
   const id = "test-toast";
 
   // Show instructions on how to add sighting
@@ -48,7 +50,7 @@ const map = () => {
   return (
     <Flex
       w="100vw"
-      h="100vh"
+      h={height}
       flexDirection={["column", "column", "row-reverse"]}
     >
       <Box h={["90%", "90%", "100%"]} w={["100%", "100%", "85%"]}>
