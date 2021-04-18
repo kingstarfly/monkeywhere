@@ -1,6 +1,6 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -29,6 +29,7 @@ const LocationMarker = ({ setNewLocation, onOpen }) => {
 const MonkeyMap = () => {
   const [newLocation, setNewLocation] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const mapRef = useRef(undefined);
 
   // Queries
   const { isLoading, isError, data: monkeyData, error } = useQuery(
@@ -47,6 +48,7 @@ const MonkeyMap = () => {
         w="100%"
         h="100%"
         as={MapContainer}
+        ref={mapRef}
         center={[1.348147, 103.684699]}
         zoom={16}
         scrollWheelZoom={true}

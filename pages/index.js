@@ -7,16 +7,17 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useAuth } from "../lib/auth";
 import Login from "../components/Login";
 
 function Home() {
   const auth = useAuth();
+  const router = useRouter();
 
   // if cookie is there, redirect to map
   if (document.cookie && document.cookie.includes("monkeywhere-auth")) {
-    Router.push("/map");
+    router.push("/map");
   }
   // if loading, show loading screen
   if (auth.loading) {

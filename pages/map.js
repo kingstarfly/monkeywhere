@@ -15,13 +15,34 @@ import ReportModal from "../components/ReportModal";
 import { useRequireAuth } from "../lib/auth";
 import { SignOutIcon } from "../styles/theme";
 import useWindowSize from "../lib/window";
-import { useLeavePageConfirm } from "../lib/leavePage";
+import { useRouter } from "next/router";
+import cookie from "js-cookie";
+import "leaflet/dist/leaflet.css";
 
 const MonkeyMap = dynamic(() => import("../components/MonkeyMap"), {
   ssr: false,
+  loading: () => {
+    return <Skeleton height="100vh" />;
+  },
 });
+
 const map = () => {
-  useLeavePageConfirm();
+  const router = useRouter();
+  // Handle back button
+  useEffect(() => {
+    const handler = () => {
+      // console.log("Removing cookie and signing out");
+      // cookie.remove("monkeywhere-auth");
+      return null;
+    };
+
+    router.events.on("routeChangeStart", handler);
+
+    return () => {
+      console.log("Leaving map...");
+      router.events.off("routeChangeStart", handler);
+    };
+  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const auth = useRequireAuth();

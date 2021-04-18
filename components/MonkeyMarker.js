@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { Box, Flex, Stack, Text, VStack } from "@chakra-ui/layout";
+import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { differenceInDays, formatDistanceToNow, parseISO } from "date-fns";
 
-const monkeyIcon = L.icon({
+const monkeyIconLG = L.icon({
   iconUrl: "/monkey-icon.png",
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, -15],
+});
+
+const monkeyIconMD = L.icon({
+  iconUrl: "/monkey-icon-2.png",
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, -15],
+});
+
+const monkeyIconSM = L.icon({
+  iconUrl: "/monkey-icon-3.png",
   iconSize: [30, 30],
   iconAnchor: [15, 15],
   popupAnchor: [0, -15],
@@ -14,8 +28,19 @@ const monkeyIcon = L.icon({
 const MonkeyMarker = ({
   info: { id, timestamp, numMonkeys, description, position },
 }) => {
-  return position === null ? null : (
-    <Marker position={position} icon={monkeyIcon}>
+  const daysAgo = differenceInDays(new Date(), parseISO(timestamp));
+  console.log(daysAgo);
+  return position === null || daysAgo > 2 ? null : (
+    <Marker
+      position={position}
+      icon={
+        daysAgo === 0
+          ? monkeyIconLG
+          : daysAgo === 1
+          ? monkeyIconMD
+          : monkeyIconSM
+      }
+    >
       <Popup>
         <Stack direction="column">
           <Text>
