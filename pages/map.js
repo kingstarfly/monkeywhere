@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -14,36 +14,66 @@ import dynamic from "next/dynamic";
 import ReportModal from "../components/ReportModal";
 import { useRequireAuth } from "../lib/auth";
 import { SignOutIcon } from "../styles/theme";
+import useWindowSize from "../lib/window";
+import { useRouter } from "next/router";
+import cookie from "js-cookie";
+import "leaflet/dist/leaflet.css";
 
 const MonkeyMap = dynamic(() => import("../components/MonkeyMap"), {
   ssr: false,
+  loading: () => {
+    return <Skeleton height="100vh" />;
+  },
 });
+
 const map = () => {
+  const router = useRouter();
+  // Handle back button
+  useEffect(() => {
+    const handler = () => {
+      // console.log("Removing cookie and signing out");
+      // cookie.remove("monkeywhere-auth");
+      return null;
+    };
+
+    router.events.on("routeChangeStart", handler);
+
+    return () => {
+      console.log("Leaving map...");
+      router.events.off("routeChangeStart", handler);
+    };
+  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const auth = useRequireAuth();
   const toast = useToast();
+  const { height } = useWindowSize();
+
   const id = "test-toast";
+
+  // Show instructions on how to add sighting
+  useEffect(() => {
+    if (!toast.isActive(id)) {
+      toast({
+        title: "How to use",
+        description:
+          "Spotted a monkey? Long press on the location to report it!",
+        duration: 5000,
+        position: "top",
+        variant: "subtle",
+        isClosable: true,
+      });
+    }
+  }, []);
 
   if (auth.loading || !auth.user) {
     return <Skeleton height="100vh" />;
-  }
-  // Show instructions on how to add sighting
-  if (!toast.isActive(id)) {
-    toast({
-      title: "How to use",
-      description: "Spotted a monkey? Long press on the location to report it!",
-      duration: 5000,
-      position: "top",
-      variant: "subtle",
-      isClosable: true,
-    });
   }
 
   return (
     <Flex
       w="100vw"
-      h="100vh"
+      h={height}
       flexDirection={["column", "column", "row-reverse"]}
     >
       <Box h={["90%", "90%", "100%"]} w={["100%", "100%", "85%"]}>
