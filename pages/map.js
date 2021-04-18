@@ -27,22 +27,6 @@ const MonkeyMap = dynamic(() => import("../components/MonkeyMap"), {
 });
 
 const map = () => {
-  const router = useRouter();
-  // Handle back button
-  useEffect(() => {
-    const handler = () => {
-      // console.log("Removing cookie and signing out");
-      // cookie.remove("monkeywhere-auth");
-      return null;
-    };
-
-    router.events.on("routeChangeStart", handler);
-
-    return () => {
-      console.log("Leaving map...");
-      router.events.off("routeChangeStart", handler);
-    };
-  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const auth = useRequireAuth();

@@ -1,7 +1,15 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box } from "@chakra-ui/layout";
 import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import {
+  MapConsumer,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import MonkeyMarker from "./MonkeyMarker";
@@ -10,7 +18,19 @@ import { useQuery } from "react-query";
 import { getSightings } from "../utils/fetcher";
 import { Skeleton } from "@chakra-ui/skeleton";
 
+const NTU_GENERIC_CENTER = [1.348147, 103.684699];
+
 const LocationMarker = ({ setNewLocation, onOpen }) => {
+  const [userLocation, setUserLocation] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserLocation([position.coords.latitude, position.coords.longitude]);
+      });
+    }
+  }, []);
+
   const map = useMapEvents({
     contextmenu(e) {
       map.flyTo(e.latlng, map.getZoom());
@@ -22,14 +42,22 @@ const LocationMarker = ({ setNewLocation, onOpen }) => {
       onOpen();
     },
   });
+  const locationIcon = L.icon({
+    iconUrl: "/location.png",
+    iconSize: [30, 45],
+    iconAnchor: [30, 45],
+    popupAnchor: [0, -22],
+  });
 
+  if (userLocation !== null) {
+    return <Marker position={userLocation} icon={locationIcon} />;
+  }
   return null;
 };
 
 const MonkeyMap = () => {
   const [newLocation, setNewLocation] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mapRef = useRef(undefined);
 
   // Queries
   const { isLoading, isError, data: monkeyData, error } = useQuery(
@@ -48,8 +76,7 @@ const MonkeyMap = () => {
         w="100%"
         h="100%"
         as={MapContainer}
-        ref={mapRef}
-        center={[1.348147, 103.684699]}
+        center={NTU_GENERIC_CENTER}
         zoom={16}
         scrollWheelZoom={true}
       >
