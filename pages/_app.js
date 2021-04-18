@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "../lib/auth";
@@ -10,29 +10,11 @@ import "@fontsource/montserrat/300.css";
 import "@fontsource/montserrat/400.css";
 import "@fontsource/montserrat/700.css";
 import theme from "../styles/theme";
+import { useRouter } from "next/router";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
-  const [innerHeight, setH] = React.useState(
-    typeof window !== "undefined" ? window.innerHeight : 100
-  );
-
-  function windowResizeHandler() {
-    if (window !== undefined) {
-      setH(window.innerHeight);
-    }
-  }
-
-  React.useEffect(() => {
-    if (window !== undefined) {
-      window.addEventListener("resize", windowResizeHandler);
-      return () => {
-        window.removeEventListener("resize", windowResizeHandler);
-      };
-    }
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>

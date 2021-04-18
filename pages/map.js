@@ -15,21 +15,23 @@ import ReportModal from "../components/ReportModal";
 import { useRequireAuth } from "../lib/auth";
 import { SignOutIcon } from "../styles/theme";
 import useWindowSize from "../lib/window";
+import { useLeavePageConfirm } from "../lib/leavePage";
 
 const MonkeyMap = dynamic(() => import("../components/MonkeyMap"), {
   ssr: false,
 });
 const map = () => {
+  useLeavePageConfirm();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const auth = useRequireAuth();
   const toast = useToast();
   const { height } = useWindowSize();
+
   const id = "test-toast";
 
   // Show instructions on how to add sighting
   useEffect(() => {
-    console.log("I FIRED");
     if (!toast.isActive(id)) {
       toast({
         title: "How to use",
