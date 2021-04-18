@@ -1,13 +1,7 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 import React, { useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 import MonkeyMarker from "./MonkeyMarker";
@@ -17,7 +11,6 @@ import { getSightings } from "../utils/fetcher";
 import { Skeleton } from "@chakra-ui/skeleton";
 
 const LocationMarker = ({ setNewLocation, onOpen }) => {
-  const [position, setPosition] = useState(null);
   const map = useMapEvents({
     contextmenu(e) {
       map.flyTo(e.latlng, map.getZoom());
@@ -42,10 +35,6 @@ const MonkeyMap = () => {
     "sightings",
     getSightings
   );
-
-  // if (isLoading) {
-  //   return <Text>Loading Map...</Text>;
-  // }
 
   return (
     <Skeleton

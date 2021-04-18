@@ -1,3 +1,4 @@
+import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "../lib/auth";
@@ -12,6 +13,25 @@ import theme from "../styles/theme";
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
+  const [innerHeight, setH] = React.useState(
+    typeof window !== "undefined" ? window.innerHeight : 100
+  );
+
+  function windowResizeHandler() {
+    if (window !== undefined) {
+      setH(window.innerHeight);
+    }
+  }
+
+  React.useEffect(() => {
+    if (window !== undefined) {
+      window.addEventListener("resize", windowResizeHandler);
+      return () => {
+        window.removeEventListener("resize", windowResizeHandler);
+      };
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>

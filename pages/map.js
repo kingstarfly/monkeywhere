@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -25,19 +25,24 @@ const map = () => {
   const toast = useToast();
   const id = "test-toast";
 
+  // Show instructions on how to add sighting
+  useEffect(() => {
+    console.log("I FIRED");
+    if (!toast.isActive(id)) {
+      toast({
+        title: "How to use",
+        description:
+          "Spotted a monkey? Long press on the location to report it!",
+        duration: 5000,
+        position: "top",
+        variant: "subtle",
+        isClosable: true,
+      });
+    }
+  }, []);
+
   if (auth.loading || !auth.user) {
     return <Skeleton height="100vh" />;
-  }
-  // Show instructions on how to add sighting
-  if (!toast.isActive(id)) {
-    toast({
-      title: "How to use",
-      description: "Spotted a monkey? Long press on the location to report it!",
-      duration: 5000,
-      position: "top",
-      variant: "subtle",
-      isClosable: true,
-    });
   }
 
   return (
