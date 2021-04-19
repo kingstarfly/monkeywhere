@@ -18,7 +18,7 @@ import { useQuery } from "react-query";
 import { getSightings } from "../utils/fetcher";
 import { Skeleton } from "@chakra-ui/skeleton";
 
-const NTU_GENERIC_CENTER = [1.348147, 103.684699];
+const NTU_GENERIC_CENTER = [1.353506, 103.687237];
 
 const LocationMarker = ({ setNewLocation, onOpen }) => {
   const [userLocation, setUserLocation] = useState(null);

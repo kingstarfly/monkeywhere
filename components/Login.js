@@ -19,7 +19,7 @@ function Login() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      h="100vh"
+      h="100%"
       p={8}
     >
       <NextImage src="/monkey-icon.png" width={100} height={100} />

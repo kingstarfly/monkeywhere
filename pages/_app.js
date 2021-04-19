@@ -11,6 +11,7 @@ import "@fontsource/montserrat/400.css";
 import "@fontsource/montserrat/700.css";
 import theme from "../styles/theme";
 import { useRouter } from "next/router";
+import Div100vh from "react-div-100vh";
 
 const queryClient = new QueryClient();
 
@@ -19,14 +20,16 @@ function MyApp({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <AuthProvider>
-          <Head>
-            <title>monkeywhere</title>
-            <meta
-              name="viewport"
-              content="initial-scale=1.0, width=device-width"
-            />
-          </Head>
-          <Component {...pageProps} />
+          <Div100vh>
+            <Head>
+              <title>monkeywhere</title>
+              <meta
+                name="viewport"
+                content="initial-scale=1.0, width=device-width"
+              />
+            </Head>
+            <Component {...pageProps} />
+          </Div100vh>
         </AuthProvider>
       </ChakraProvider>
     </QueryClientProvider>

@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import ReportModal from "../components/ReportModal";
 import { useRequireAuth } from "../lib/auth";
 import { SignOutIcon } from "../styles/theme";
-import useWindowSize from "../lib/window";
+// import useWindowSize from "../lib/window";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import "leaflet/dist/leaflet.css";
@@ -31,7 +31,7 @@ const map = () => {
 
   const auth = useRequireAuth();
   const toast = useToast();
-  const { height } = useWindowSize();
+  // const { height } = useWindowSize();
 
   const id = "test-toast";
 
@@ -57,7 +57,7 @@ const map = () => {
   return (
     <Flex
       w="100vw"
-      h={height}
+      h="100%"
       flexDirection={["column", "column", "row-reverse"]}
     >
       <Box h={["90%", "90%", "100%"]} w={["100%", "100%", "85%"]}>
