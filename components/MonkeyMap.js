@@ -62,7 +62,10 @@ const MonkeyMap = () => {
   // Queries
   const { isLoading, isError, data: monkeyData, error } = useQuery(
     "sightings",
-    getSightings
+    getSightings,
+    {
+      refetchInterval: 10000,
+    }
   );
 
   return (
