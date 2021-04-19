@@ -29,7 +29,6 @@ const MonkeyMarker = ({
   info: { id, timestamp, numMonkeys, description, position },
 }) => {
   const daysAgo = differenceInDays(new Date(), parseISO(timestamp));
-  console.log(daysAgo);
   return position === null || daysAgo > 2 ? null : (
     <Marker
       position={position}
