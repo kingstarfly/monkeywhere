@@ -41,13 +41,15 @@ const MonkeyMarker = ({
       }
     >
       <Popup>
-        <Stack direction="column">
-          <Text>
+        <Stack direction="column" spacing={0}>
+          <Text fontWeight="bold" fontSize={16}>
             {numMonkeys} spotted{" "}
             {formatDistanceToNow(parseISO(timestamp), { addSuffix: true })}
           </Text>
 
-          <Text textAlign="center">"{description}"</Text>
+          <Text fontSize={14} textAlign="center">
+            "{description}"
+          </Text>
         </Stack>
       </Popup>
     </Marker>

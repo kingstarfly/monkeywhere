@@ -64,7 +64,7 @@ const MonkeyMap = () => {
     "sightings",
     getSightings,
     {
-      refetchInterval: 2000,
+      refetchInterval: 10000,
     }
   );
 
