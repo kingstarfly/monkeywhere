@@ -1,34 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# monkeywhere
 
-## Getting Started
+Some screenshots of the mobile-optimised web app!
 
-First, run the development server:
+![Login page](https://user-images.githubusercontent.com/38955962/115524215-7b3dcb80-a2c0-11eb-96bb-3a1ab3e81863.jpg)
+![Initial map](https://user-images.githubusercontent.com/38955962/115523958-32861280-a2c0-11eb-9120-28a58763de19.jpg)
+![Zoomed map](https://user-images.githubusercontent.com/38955962/115524045-4893d300-a2c0-11eb-8eb5-562af8c6aebf.jpg)
+![Report sighting](https://user-images.githubusercontent.com/38955962/115524274-885aba80-a2c0-11eb-9ea4-01e5d9b572c8.jpg)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## About <a name = "about"></a>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Monkeywhere allows anyone to report a monkey sighting with an easy-to-use map interface.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Monkeywhere was created in 2021 April in response to the increased appearance of long tailed macaque in various student halls in Nanyang Technological University (NTU).  
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Tech Used <a name = "tech_used"></a>
 
-## Learn More
+- reactjs with nextjs
+- react query
+- firebase
+- leaflet, react-leaflet
+- react-hook-form
+- chakraUI
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

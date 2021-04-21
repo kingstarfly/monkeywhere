@@ -86,7 +86,7 @@ const map = () => {
           alignItems="center"
           flexDirection={"column"}
         >
-          <Heading size={["lg"]}>monkeywhere</Heading>
+          <Heading size={["md", "md", "lg"]}>monkeywhere</Heading>
           <Text textAlign="center" fontSize={["md", "md", "lg"]}>
             Logged in as {auth?.user?.name}
           </Text>
